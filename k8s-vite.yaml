@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vite-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: vite-app
+  template:
+    metadata:
+      labels:
+        app: vite-app
+    spec:
+      containers:
+        - name: vite-container
+          image: taskad/vite-project:latest
+          ports:
+            - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vite-service
+spec:
+  selector:
+    app: vite-app
+  ports:
+    - port: 80
+      targetPort: 80
+  type: ClusterIP
